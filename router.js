@@ -15,12 +15,12 @@ module.exports = function(app) {
   // Trip Routes TODO: should I add requireAuth as middleware?
   app.get('/user/:username', trips.showAll);
   app.post('/user/:username', trips.create);
-  app.put('/user/:username/trip/:tripName', trips.update);
-  app.delete('/user/:username/trip/:tripName', trips.delete);
+  app.put('/user/:username/trip/:tripId', trips.update);
+  app.delete('/user/:username/trip/:tripId', trips.delete);
 
   // Activity Routes TODO: should I add requireAuth as middleware?
-  app.get('/user/:username/trip/:tripName', activities.showAll);
-  app.post('/user/:username/trip/:tripName', activities.create);
-  app.post('/user/:username/trip/:tripName/activity/:id', activities.update);
-  app.post('/user/:username/trip/:tripName/activity/:id', activities.delete);
+  app.get('/user/:username/trip/:tripId', activities.showAll);
+  app.post('/user/:username/trip/:tripId', activities.create);
+  app.put('/user/:username/trip/:tripId/activity/:activityId', activities.update);
+  app.delete('/user/:username/trip/:tripId/activity/:activityId', activities.delete);
 }
