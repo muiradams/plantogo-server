@@ -1,12 +1,11 @@
-// Main starting point of the server application
 const express = require('express');
 const http = require('http');
 const bodyParser = require('body-parser');
-// Morgan logs incoming requests, and we're using it for debugging
 const morgan = require('morgan');
 const router = require('./router');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const config = require('./config');
 
 const app = express();
 

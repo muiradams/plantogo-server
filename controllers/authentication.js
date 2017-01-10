@@ -1,6 +1,8 @@
 const jwt = require('jwt-simple');
 const User = require('../models/user');
 const config = require('../config');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
 
 function tokenForUser(user) {
   const timestamp = new Date().getTime();
@@ -51,6 +53,92 @@ exports.signup = function(req, res, next) {
 
         // Respond to request indicating the user was created
         res.json({ token: tokenForUser(user) });
+      });
+    });
+  });
+}
+
+exports.forgot = function(req, res, next) {
+  crypto.randomBytes(20, function(err, buf) {
+    if (err) { return next(err); }
+
+    var token = buf.toString('hex');
+
+    User.findOne({ email: req.body.email }, function(err, user) {
+      if (err) { return next(err); }
+
+      if (!user) {
+        return res.status(422).send({ error: 'No account with that email address exists'});
+      }
+
+      user.resetPasswordToken = token;
+      user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+
+      user.save(function(err) {
+        if (err) { return next(err); }
+
+        var smtpTransport = nodemailer.createTransport('SMTP', {
+          service: 'Mailgun',
+          auth: {
+            user: config.mailgunLogin,
+            pass: config.mailgunPassword,
+          }
+        });
+
+        var mailOptions = {
+          to: user.email,
+          from: 'passwordreset@plantogo.com',
+          subject: 'Node.js Password Reset',
+          text: 'You are receiving this because you requested a reset of the password for your account.\n\n' +
+            'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+            'http://' + req.headers.host + '/reset/' + token + '\n\n' +
+            'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+        };
+
+        smtpTransport.sendMail(mailOptions, function(err) {
+          if (err) { return next(err); }
+
+          res.status(200).send({error: `An e-mail has been sent to ${user.email} with further instructions.`});
+        });
+      });
+    });
+  });
+}
+
+exports.reset = function(req, res, next) {
+  User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+    if (err) { return next(err); }
+
+    if (!user) {
+      return res.status(422).send({ error: 'No account with that email address exists'});
+    }
+
+    user.password = req.body.password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+
+    user.save(function(err) {
+      if (err) { return next(err); }
+
+      var smtpTransport = nodemailer.createTransport('SMTP', {
+        service: 'Mailgun',
+        auth: {
+          user: config.mailgunLogin,
+          pass: config.mailgunPassword,
+        }
+      });
+
+      var mailOptions = {
+        to: user.email,
+        from: 'passwordreset@plantogo.co',
+        subject: 'Your password has been changed',
+        text: `Hello ${user.username},\n\nThis is confirmation that the password for your account, ${user.email}, has just been changed.\n`
+      };
+
+      smtpTransport.sendMail(mailOptions, function(err) {
+        if (err) { return next(err); }
+
+        res.status(200).send({error: `Your password has been successfully reset`});
       });
     });
   });

@@ -6,9 +6,11 @@ const tripSchema = require('./trip');
 
 // Define our model
 const userSchema = new Schema({
-  email: { type: String, unique: true, lowercase: true, },
-  username: { type: String, unique: true, lowercase: true, },
-  password: String,
+  email: { type: String, required: true , unique: true, lowercase: true, },
+  username: { type: String, required: true , unique: true, lowercase: true, },
+  password: { type: String, required: true },
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
   trips: [tripSchema],
 });
 
@@ -16,12 +18,16 @@ const userSchema = new Schema({
 userSchema.pre('save', function(next) {
   // Get access to the user model
   const user = this;
+  const SALT_FACTOR = 5;
+
+  if (!user.isModified('password')) return next();
+
   // Generate a salt then run callback
-  bcrypt.genSalt(10, function(err, salt) {
-    if (err) { return next(err); }
+  bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
+    if (err) return next(err);
     // Hash (encrypt) our password using the salt
     bcrypt.hash(user.password, salt, null, function(err, hash) {
-      if (err) { return next(err); }
+      if (err) return next(err);
       // Overwrite plain text password with encrypted password
       user.password = hash;
       next();
@@ -31,7 +37,7 @@ userSchema.pre('save', function(next) {
 
 userSchema.methods.comparePassword = function(candidatePassword, callback) {
   bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-    if (err) { return callback(err); }
+    if (err) return callback(err);
 
     callback(null, isMatch);
   });
