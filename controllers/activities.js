@@ -22,7 +22,7 @@ exports.showAll = function(req, res, next) {
     }
 
     // res.send(allTrips);
-    res.status(200).json(trip.activities);
+    res.status(200).json(trip);
   });
 }
 

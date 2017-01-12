@@ -13,11 +13,13 @@ module.exports = function(app) {
   app.post('/forgot', authentication.forgot);
   app.post('/reset/:token', authentication.reset);
 
+  // Trip Routes
   app.get('/user/:username', requireAuth, trips.showAll);
   app.post('/user/:username', requireAuth, trips.create);
   app.put('/user/:username/trip/:tripId', requireAuth, trips.update);
   app.delete('/user/:username/trip/:tripId', requireAuth, trips.delete);
 
+  // Activity Routes
   app.get('/user/:username/trip/:tripId', requireAuth, activities.showAll);
   app.post('/user/:username/trip/:tripId', requireAuth, activities.create);
   app.put('/user/:username/trip/:tripId/activity/:activityId', requireAuth, activities.update);
