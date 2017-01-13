@@ -71,6 +71,41 @@ exports.create = function(req, res, next) {
   });
 }
 
+// Show one activity
+exports.show = function(req, res, next) {
+  const username = req.params.username;
+  const tripId = req.params.tripId;
+  const activityId = req.params.activityId;
+
+  User.findOne({ username: username }, function(err, user) {
+    if (err) { return next(err); }
+
+    // If a user with username does not exist, return an error
+    if(!user) {
+      return res.status(422).send({ error: 'User does not exist' });
+    }
+
+    // Find the trip
+    const trip = user.trips.id(tripId);
+
+    // Does the trip exist?  If not, return an error
+    if(!trip) {
+      return res.status(422).send({ error: 'Trip does not exist' });
+    }
+
+    // Find the activity
+    const activity = trip.activities.id(activityId);
+
+    // Does the activity exist?  If not, return an error
+    if(!activity) {
+      return res.status(422).send({ error: 'Activity does not exist' });
+    }
+
+    // Return the activity
+    res.status(200).json(activity);
+  });
+}
+
 // Update an activity
 exports.update = function(req, res, next) {
   const username = req.params.username;

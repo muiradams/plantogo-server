@@ -21,7 +21,8 @@ module.exports = function(app) {
 
   // Activity Routes
   app.get('/user/:username/trip/:tripId', requireAuth, activities.showAll);
-  app.post('/user/:username/trip/:tripId', requireAuth, activities.create);
+  app.post('/user/:username/trip/:tripId/activity', requireAuth, activities.create);
+  app.get('/user/:username/trip/:tripId/activity/:activityId', requireAuth, activities.show);
   app.put('/user/:username/trip/:tripId/activity/:activityId', requireAuth, activities.update);
   app.delete('/user/:username/trip/:tripId/activity/:activityId', requireAuth, activities.delete);
 }
