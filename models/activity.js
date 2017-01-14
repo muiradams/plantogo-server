@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 module.exports = new Schema({
   activityName: String,
   activityType: String,
-  startTime: Date,
-  endTime: Date,
+  start: Date,
+  end: Date,
   notes: String,
 });

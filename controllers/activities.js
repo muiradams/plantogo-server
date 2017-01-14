@@ -34,12 +34,12 @@ exports.create = function(req, res, next) {
   const activityFields = {
     activityName,
     activityType,
-    startTime,
-    endTime,
+    start,
+    end,
     notes,
   } = req.body;
 
-  if (!activityName || !activityType || !startTime ) {
+  if (!activityName || !activityType || !start ) {
     return res.status(422).send({
       error: 'You must provide a name, type and start time to create a new activity'
     });
@@ -115,8 +115,8 @@ exports.update = function(req, res, next) {
   const activityFields = {
     activityName,
     activityType,
-    startTime,
-    endTime,
+    start,
+    end,
     notes,
   } = req.body;
 

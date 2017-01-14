@@ -20,7 +20,7 @@ exports.signup = function(req, res, next) {
   const password = req.body.password;
 
   if (!email || !username || !password) {
-    return res.status(422).send({ error: 'You must provide Email, Username, and Password'});
+    return res.status(422).send({ error: 'Must provide Email, Username, and Password'});
   }
 
   // See if a user with given email exists
@@ -29,7 +29,7 @@ exports.signup = function(req, res, next) {
 
     // If a user with email does exist, return an error
     if(existingUser) {
-      return res.status(422).send({ error: 'Email is already in use' });
+      return res.status(422).send({ error: 'Email already in use' });
     }
 
     // See if a user with given username exists
@@ -38,7 +38,7 @@ exports.signup = function(req, res, next) {
 
       // If a user with username does exist, return an error
       if(existingUser) {
-        return res.status(422).send({ error: 'Username is already in use' });
+        return res.status(422).send({ error: 'Username already in use' });
       }
 
       // If a user with email and username does not exist, create and save user record
@@ -68,7 +68,7 @@ exports.forgot = function(req, res, next) {
       if (err) { return next(err); }
 
       if (!user) {
-        return res.status(422).send({ error: 'No account with that email address exists'});
+        return res.status(422).send({ error: 'No account with that email exists'});
       }
 
       user.resetPasswordToken = token;
@@ -99,7 +99,7 @@ exports.forgot = function(req, res, next) {
         smtpTransport.sendMail(mailOptions, function(err) {
           if (err) { return next(err); }
 
-          res.status(200).send({error: `An e-mail has been sent to ${user.email} with further instructions.`});
+          res.status(200).send({message: `Email sent to ${user.email}`});
         });
       });
     });
@@ -111,7 +111,7 @@ exports.reset = function(req, res, next) {
     if (err) { return next(err); }
 
     if (!user) {
-      return res.status(422).send({ error: 'No account with that email address exists'});
+      return res.status(422).send({ error: 'No account with that email exists'});
     }
 
     user.password = req.body.password;
@@ -139,7 +139,7 @@ exports.reset = function(req, res, next) {
       smtpTransport.sendMail(mailOptions, function(err) {
         if (err) { return next(err); }
 
-        res.status(200).send({error: `Your password has been successfully reset`});
+        res.status(200).send({message: `Password successfully changed`});
       });
     });
   });
