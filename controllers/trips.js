@@ -37,10 +37,10 @@ exports.create = function(req, res, next) {
     const newTrip = { tripName, activities: [], };
     user.trips.push(newTrip);
 
-    user.save(function(err){
+    user.save(function(err, updatedUser){
       if (err) { return next(err); }
-
-      res.status(201).end();
+      const tripId = updatedUser.trips[updatedUser.trips.length - 1]._id;
+      res.status(201).send({ tripId });
     });
   });
 }
