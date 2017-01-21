@@ -36,6 +36,11 @@ exports.create = function(req, res, next) {
     activityType,
     start,
     end,
+    startLocation,
+    endLocation,
+    address,
+    confirmationNumber,
+    transportNumber,
     notes,
   } = req.body;
 
@@ -117,6 +122,11 @@ exports.update = function(req, res, next) {
     activityType,
     start,
     end,
+    startLocation,
+    endLocation,
+    address,
+    confirmationNumber,
+    transportNumber,
     notes,
   } = req.body;
 
@@ -148,7 +158,11 @@ exports.update = function(req, res, next) {
     for (var field in activityFields) {
       const newData = activityFields[field];
       if (newData) {
-        activity[field] = newData;
+        if (newData.delete) {
+          activity[field] = null;
+        } else {
+          activity[field] = newData;
+        }
       }
     }
 

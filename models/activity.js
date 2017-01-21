@@ -8,5 +8,10 @@ module.exports = new Schema({
   activityType: String,
   start: Date,
   end: Date,
+  startLocation: String,
+  endLocation: String,
+  address: String,
+  confirmationNumber: String,
+  transportNumber: String,
   notes: String,
 });
