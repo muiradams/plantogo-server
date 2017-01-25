@@ -3,6 +3,7 @@ const User = require('../models/user');
 const config = require('../config');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const exampleTrip = require('../models/exampleTrip');
 
 function tokenForUser(user) {
   const timestamp = new Date().getTime();
@@ -46,6 +47,7 @@ exports.signup = function(req, res, next) {
         email: email,
         username: username,
         password: password,
+        trips: [exampleTrip],
       });
 
       user.save(function(err){
