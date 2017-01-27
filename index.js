@@ -9,7 +9,7 @@ const cors = require('cors');
 const app = express();
 
 // MONGODB_URI contains the URI for the Heroku mLab Add-on
-const mongoURI = MONGODB_URI || 'mongodb://localhost:plantogo/plantogo';
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:plantogo/plantogo';
 mongoose.connect(mongoURI);
 
 // App setup

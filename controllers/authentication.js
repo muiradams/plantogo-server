@@ -4,10 +4,13 @@ const config = require('../config');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const exampleTrip = require('../models/exampleTrip');
+const SECRET = process.env.SECRET || config.secret;
+const MAILGUNLOGIN = process.env.MAILGUNLOGIN || config.mailgunLogin;
+const MAILGUNPASSWORD = process.env.MAILGUNPASSWORD || config.mailgunPassword;
 
 function tokenForUser(user) {
   const timestamp = new Date().getTime();
-  return jwt.encode({ sub: user.id, iat: timestamp }, config.secret);
+  return jwt.encode({ sub: user.id, iat: timestamp }, SECRET);
 }
 
 exports.signin = function(req, res, next) {
@@ -82,8 +85,8 @@ exports.forgot = function(req, res, next) {
         var smtpTransport = nodemailer.createTransport('SMTP', {
           service: 'Mailgun',
           auth: {
-            user: config.mailgunLogin,
-            pass: config.mailgunPassword,
+            user: MAILGUNLOGIN,
+            pass: MAILGUNPASSWORD,
           }
         });
 
@@ -126,8 +129,8 @@ exports.reset = function(req, res, next) {
       var smtpTransport = nodemailer.createTransport('SMTP', {
         service: 'Mailgun',
         auth: {
-          user: config.mailgunLogin,
-          pass: config.mailgunPassword,
+          user: MAILGUNLOGIN,
+          pass: MAILGUNPASSWORD,
         }
       });
 
