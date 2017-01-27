@@ -1,9 +1,16 @@
 const jwt = require('jwt-simple');
 const User = require('../models/user');
-const config = require('../config');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const exampleTrip = require('../models/exampleTrip');
+
+// SETUP
+// Hide this if using config variables in production
+// const config = require('../config');
+// Unhide this if using config variables in production
+ const config = { secret: null, mailgunLogin: null, mailgunPassword: null};
+// END SETUP
+
 const SECRET = process.env.SECRET || config.secret;
 const MAILGUNLOGIN = process.env.MAILGUNLOGIN || config.mailgunLogin;
 const MAILGUNPASSWORD = process.env.MAILGUNPASSWORD || config.mailgunPassword;

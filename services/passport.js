@@ -1,9 +1,16 @@
 const passport = require('passport');
 const User = require('../models/user');
-const config = require('../config');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const LocalStrategy = require('passport-local');
+
+// SETUP
+// Hide this if using config variables in production
+// const config = require('../config');
+// Unhide this if using config variables in production
+const config = { secret: null };
+// END SETUP
+
 const SECRET = process.env.SECRET || config.secret;
 
 // Create local strategy
