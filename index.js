@@ -8,8 +8,9 @@ const cors = require('cors');
 
 const app = express();
 
-// DB setup - plantogo is the name of the database we chose for this app
-mongoose.connect('mongodb://localhost:plantogo/plantogo');
+// MONGODB_URI contains the URI for the Heroku mLab Add-on
+const mongoURI = MONGODB_URI || 'mongodb://localhost:plantogo/plantogo';
+mongoose.connect(mongoURI);
 
 // App setup
 // app.use sets up functions as middleware
