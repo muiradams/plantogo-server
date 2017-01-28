@@ -6,9 +6,9 @@ const exampleTrip = require('../models/exampleTrip');
 
 // SETUP
 // Hide this if using config variables in production
-const config = require('../config');
+//const config = require('../config');
 // Unhide this if using config variables in production
-// const config = { secret: null, mailgunLogin: null, mailgunPassword: null};
+const config = { secret: null, mailgunLogin: null, mailgunPassword: null};
 // END SETUP
 
 const SECRET = process.env.SECRET || config.secret;
