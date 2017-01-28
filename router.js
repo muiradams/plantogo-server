@@ -26,4 +26,8 @@ module.exports = function(app) {
   app.get('/user/:username/trip/:tripId/activity/:activityId', requireAuth, activities.show);
   app.put('/user/:username/trip/:tripId/activity/:activityId', requireAuth, activities.update);
   app.delete('/user/:username/trip/:tripId/activity/:activityId', requireAuth, activities.delete);
+
+  app.get('*', function(req, res) {
+    res.send('Server is running...');
+  });
 }
