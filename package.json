@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "PlanToGo-Server",
   "version": "1.0.0",
   "description": "The backend RESTFUL API server for the PlanToGo web app.",
   "main": "index.js",
@@ -9,8 +9,8 @@
     "dev": "nodemon index.js",
     "start": "node index.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Muir Adams",
+  "license": "GPL-3.0",
   "dependencies": {
     "async": "^2.1.4",
     "bcrypt-nodejs": "0.0.3",
