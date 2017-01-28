@@ -1,11 +1,13 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "The backend RESTFUL API server for the PlanToGo web app.",
   "main": "index.js",
+  "repository": "https://github.com/muiradams/plantogo-server",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
