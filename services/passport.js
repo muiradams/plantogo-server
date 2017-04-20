@@ -6,9 +6,9 @@ const LocalStrategy = require('passport-local');
 
 // SETUP
 // Hide this if using config variables in production
-const config = require('../config');
+// const config = require('../config');
 // Unhide this if using config variables in production
-// const config = { secret: null };
+const config = { secret: null };
 // END SETUP
 
 const SECRET = process.env.SECRET || config.secret;
