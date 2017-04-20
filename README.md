@@ -7,7 +7,7 @@ The server was created to work hand-in-hand with the PlanToGo React Web App,
 which can be found here: https://github.com/muiradams/plantogo.
 
 The server is currently deployed on Heroku running the backend of PlanToGo,
-which you can view live here: http://www.plantogo.co
+which you can view live here: https://www.plantogo.co
 
 Install dependencies: npm install
 Start the server in development mode: npm run dev
